@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEPEGYM | Musculación de Élite y Calistenia</title>
+    <meta name="description" content="Únete a PEPEGYM. Transformación física con musculación de alto nivel y barras de calistenia en Zárate y Campana.">
+    <meta name="theme-color" content="#0A0A0A">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pepeDark: '#0A0A0A',
+                        pepeGray: '#1A1A1A',
+                        pepeRed: '#E63946',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 20s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) scale(1)' },
+                            '50%': { transform: 'translateY(-10px) scale(1.02)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800;900&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0A0A0A; 
+            color: #FFFFFF; 
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-heading { font-family: 'Montserrat', sans-serif; }
+        
+        /* Animación sutil para la imagen principal */
+        @keyframes kenburns {
+            0% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.05) translate(-1%, -1%); }
+            100% { transform: scale(1) translate(0, 0); }
+        }
+        .hero-bg {
+            animation: kenburns 20s ease-in-out infinite;
+            transform-origin: center;
+            will-change: transform;
+        }
+        
+        /* Animación para el botón de WhatsApp */
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(230, 57, 70, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+        }
+        .btn-wsp { animation: pulse-red 2s infinite; }
+        
+        /* Estilos para los modales */
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .modal:not(.hidden) {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        
+        /* Mejoras de accesibilidad */
+        .focus-visible:focus {
+            outline: 2px solid #E63946;
+            outline-offset: 2px;
+        }
+        
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+        
+        /* Efecto hover para tarjetas de testimonios */
+        .testimonial-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.2);
+        }
+        
+        /* Responsive: Ajustes para móviles */
+        @media (max-width: 768px) {
+            .hero-bg { animation: none; transform: scale(1.1); }
+            h1 { font-size: 2.5rem !important; line-height: 1.2 !important; }
+            h2 { font-size: 1.75rem !important; }
+            .modal .max-w-3xl { max-width: 100% !important; margin: 1rem !important; }
+            .modal .p-8 { padding: 1.5rem !important; }
+            .grid-cols-2, .grid-cols-3, .grid-cols-4 { grid-template-columns: 1fr !important; }
+            .auto-rows-\[350px\] { grid-auto-rows: auto !important; }
+            iframe { min-height: 200px; }
+        }
+        
+        /* Ajustes para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem !important; }
+            .text-lg { font-size: 1rem !important; }
+            .py-4 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+            .px-8 { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-pepeRed selection:text-white">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-pepeDark/90 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="PEPEGYM.jpg" alt="Logo PEPEGYM" class="h-10 w-10 sm:h-12 sm:w-12 object-contain rounded bg-black" loading="lazy">
+                <span class="font-heading font-black text-xl sm:text-2xl tracking-tighter">PEPE<span class="text-pepeRed">GYM</span></span>
+            </div>
+            <button onclick="openGymModal()" class="hidden md:inline-flex bg-pepeRed hover:bg-red-700 text-white font-bold py-2 px-6 rounded transition-colors uppercase text-sm tracking-wide focus-visible">
+                Nuestro Gimnasio
+            </button>
+            <!-- Botón móvil para menú -->
+            <button onclick="openGymModal()" class="md:hidden bg-pepeRed hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors text-xs uppercase focus-visible">
+                Gimnasio
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section con animación -->
+    <section class="relative pt-28 pb-16 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30 mix-blend-luminosity hero-bg"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-pepeDark via-pepeDark/80 to-transparent"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="font-heading font-black text-4xl sm:text-5xl md:text-7xl leading-tight mb-4 sm:mb-6 animate-pulse-slow">
+                FORJA TU MEJOR VERSIÓN.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-pepeRed to-red-500">FUERZA Y CALISTENIA.</span>
+            </h1>
+            <p class="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-6 sm:mb-10 font-medium px-2">
+                Únete al <strong>98% de nuestros socios</strong> que logran sus objetivos en los primeros 3 meses. Equipamiento biomecánico de élite y el mejor parque indoor de barras de la zona.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+                <button onclick="openModal('Campana')" class="bg-pepeRed hover:bg-red-700 text-white font-black py-3 sm:py-4 px-6 sm:px-8 rounded text-base sm:text-lg transition-transform transform hover:scale-105 shadow-[0_0_20px_rgba(230,57,70,0.4)] focus-visible min-h-[50px]">
+                    RESERVA TU CLASE - CAMPANA
+                </button>
+                <button onclick="openModal('Zárate')" class="bg-gray-800 hover:bg-gray-700 text-white font-black py-3 sm:py-4 px-6 sm:px-8 rounded text-base sm:text-lg transition-transform transform hover:scale-105 border-2 border-pepeRed focus-visible min-h-[50px]">
+                    RESERVA TU CLASE - ZÁRATE
+                </button>
+            </div>
+            <p class="mt-4 text-xs sm:text-sm text-gray-500 uppercase tracking-widest font-semibold px-4">Cupos limitados esta semana</p>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-8 sm:py-10 bg-pepeRed">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 text-center text-white">
+                <div class="p-2">
+                    <div class="font-heading font-black text-3xl sm:text-4xl mb-1">+500</div>
+                    <div class="text-xs sm:text-sm font-semibold uppercase tracking-wide opacity-90">Socios Activos</div>
+                </div>
+                <div class="p-2">
+                    <div class="font-heading font-black text-3xl sm:text-4xl mb-1">2</div>
+                    <div class="text-xs sm:text-sm font-semibold uppercase tracking-wide opacity-90">Sucursales</div>
+                </div>
+                <div class="p-2">
+                    <div class="font-heading font-black text-3xl sm:text-4xl mb-1">98%</div>
+                    <div class="text-xs sm:text-sm font-semibold uppercase tracking-wide opacity-90">Retención</div>
+                </div>
+                <div class="p-2">
+                    <div class="font-heading font-black text-3xl sm:text-4xl mb-1">100%</div>
+                    <div class="text-xs sm:text-sm font-semibold uppercase tracking-wide opacity-90">Resultados</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Section con imágenes -->
+    <section id="servicios" class="py-16 sm:py-24 bg-pepeDark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-heading font-black text-3xl sm:text-4xl text-center mb-12 sm:mb-16 uppercase px-4">El Ecosistema <span class="text-pepeRed">PEPEGYM</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Musculación con imagen -->
+                <div class="md:col-span-2 bg-pepeGray rounded-xl border border-gray-800 hover:border-pepeRed transition-colors relative overflow-hidden group min-h-[280px] sm:min-h-[350px]">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop" alt="Sala de Musculación" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-pepeGray via-transparent to-transparent"></div>
+                    <div class="relative z-10 h-full flex flex-col justify-end p-6 sm:p-8">
+                        <h3 class="font-heading font-bold text-2xl sm:text-3xl mb-2">Sala de Musculación</h3>
+                        <p class="text-gray-300 text-sm sm:text-base">Máquinas de última generación diseñadas bajo estrictos parámetros biomecánicos para maximizar la hipertrofia de forma segura.</p>
+                    </div>
+                </div>
+                
+                <!-- Calistenia con imagen de principiante -->
+                <div class="bg-pepeGray rounded-xl border border-gray-800 hover:border-pepeRed transition-colors relative overflow-hidden group min-h-[280px] sm:min-h-[350px]">
+                    <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=800&auto=format&fit=crop" alt="Principiante en Calistenia" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-pepeGray via-transparent to-transparent"></div>
+                    <div class="relative z-10 h-full flex flex-col justify-end p-6 sm:p-8">
+                        <h3 class="font-heading font-bold text-xl sm:text-2xl mb-2">Parque de Barras</h3>
+                        <p class="text-gray-300 text-sm">Empezá desde cero. Te guiamos paso a paso para que domines tu peso corporal con seguridad y progresión.</p>
+                    </div>
+                </div>
+
+                <!-- Coaches con imagen -->
+                <div class="bg-pepeGray rounded-xl border border-gray-800 hover:border-pepeRed transition-colors relative overflow-hidden group min-h-[280px] sm:min-h-[350px]">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop" alt="Coaches Expertos" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-pepeGray via-transparent to-transparent"></div>
+                    <div class="relative z-10 h-full flex flex-col justify-end p-6 sm:p-8">
+                        <h3 class="font-heading font-bold text-xl sm:text-2xl mb-2">Coaches Expertos</h3>
+                        <p class="text-gray-300 text-sm">Planes de entrenamiento basados en datos progresivos, no en suposiciones.</p>
+                    </div>
+                </div>
+
+                <!-- Tribu con imagen -->
+                <div class="md:col-span-2 bg-gradient-to-br from-pepeGray to-pepeDark rounded-xl border border-gray-800 hover:border-pepeRed transition-colors relative overflow-hidden group min-h-[280px] sm:min-h-[350px]">
+                    <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1000&auto=format&fit=crop" alt="Comunidad PEPEGYM" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-40 transition-opacity duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-pepeDark via-pepeDark/80 to-transparent"></div>
+                    <div class="relative z-10 h-full flex flex-col justify-center items-center text-center p-6 sm:p-8">
+                        <h3 class="font-heading font-bold text-2xl sm:text-3xl mb-3 sm:mb-4 text-pepeRed">Más que un gimnasio, una tribu.</h3>
+                        <p class="text-gray-300 text-sm sm:text-base max-w-lg">El entorno es el 50% del éxito. Entrena rodeado de personas enfocadas en superar sus propios límites estadísticos día a día.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios Section -->
+    <section class="py-16 sm:py-24 bg-[#111111] border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-heading font-black text-3xl sm:text-4xl text-center mb-12 sm:mb-16 uppercase px-4">Lo que dicen nuestros <span class="text-pepeRed">Socios</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                <!-- Testimonio Campana 1 -->
+                <div class="testimonial-card bg-pepeDark p-5 sm:p-6 rounded-xl border border-gray-800">
+                    <div class="flex items-center gap-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" alt="Martín" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-pepeRed flex-shrink-0">
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-base sm:text-lg truncate">Martín González</h4>
+                            <p class="text-pepeRed text-xs sm:text-sm">Sede Campana - 8 meses</p>
+                        </div>
+                    </div>
+                    <div class="flex text-pepeRed mb-3 text-sm">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm sm:text-base">"Llegué pesando 95kg y sin poder hacer una dominada. Hoy peso 82kg y hago muscle-ups. Los coaches te bancan en cada paso. La zona de calistenia es increíble."</p>
+                </div>
+
+                <!-- Testimonio Zárate 1 -->
+                <div class="testimonial-card bg-pepeDark p-5 sm:p-6 rounded-xl border border-gray-800">
+                    <div class="flex items-center gap-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop" alt="Luciana" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-pepeRed flex-shrink-0">
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-base sm:text-lg truncate">Luciana Fernández</h4>
+                            <p class="text-pepeRed text-xs sm:text-sm">Sede Zárate - 1 año</p>
+                        </div>
+                    </div>
+                    <div class="flex text-pepeRed mb-3 text-sm">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm sm:text-base">"Probé varios gimnasios en Zárate pero PEPEGYM es otro nivel. Las máquinas biomecánicas se sienten diferente y el ambiente te motiva. Perdí 12kg y gané confianza."</p>
+                </div>
+
+                <!-- Testimonio Campana 2 -->
+                <div class="testimonial-card bg-pepeDark p-5 sm:p-6 rounded-xl border border-gray-800">
+                    <div class="flex items-center gap-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop" alt="Carlos" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-pepeRed flex-shrink-0">
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-base sm:text-lg truncate">Carlos Rodríguez</h4>
+                            <p class="text-pepeRed text-xs sm:text-sm">Sede Campana - 5 meses</p>
+                        </div>
+                    </div>
+                    <div class="flex text-pepeRed mb-3 text-sm">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm sm:text-base">"Vengo de entrenar en casa 3 años. La diferencia es abismal. Equipamiento de primera, siempre limpio y el parque de barras es el mejor de la zona. 100% recomendado."</p>
+                </div>
+
+                <!-- Testimonio Zárate 2 -->
+                <div class="testimonial-card bg-pepeDark p-5 sm:p-6 rounded-xl border border-gray-800">
+                    <div class="flex items-center gap-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop" alt="Sofía" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-pepeRed flex-shrink-0">
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-base sm:text-lg truncate">Sofía Martínez</h4>
+                            <p class="text-pepeRed text-xs sm:text-sm">Sede Zárate - 6 meses</p>
+                        </div>
+                    </div>
+                    <div class="flex text-pepeRed mb-3 text-sm">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm sm:text-base">"Como mujer que empieza en el gimnasio, me sentí súper acompañada. Los profes te explican todo sin juzgar. Ya logré mi primera dominada asistida. ¡Gracias PEPEGYM!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ubicaciones Section con mapas reales -->
+    <section id="ubicaciones" class="py-16 sm:py-24 bg-[#111111] border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-heading font-black text-3xl sm:text-4xl text-center mb-12 sm:mb-16 uppercase px-4">Encuentra tu <span class="text-pepeRed">Sede</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
+                <!-- Campana -->
+                <div class="bg-pepeDark p-5 sm:p-6 rounded-xl border border-gray-800 hover:border-pepeRed transition-colors">
+                    <h3 class="font-heading font-bold text-xl sm:text-2xl mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-pepeRed flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        PEPEGYM Campana
+                    </h3>
+                    <div class="text-gray-400 mb-6 space-y-2 text-sm">
+                        <p><strong>Dirección:</strong> Campana, Provincia de Buenos Aires</p>
+                        <p><strong>Horarios:</strong> Lunes a Viernes 06:00 - 23:00 | Sábados 08:00 - 20:00</p>
+                    </div>
+                    <!-- Mapa embebido de Google Maps -->
+                    <div class="w-full h-40 sm:h-48 rounded-lg overflow-hidden mb-4">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016!2d-58.95!3d-34.16!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDA5JzM2LjAiUyA1OMKwNTcnMDAuMCJX!5e0!3m2!1ses-419!2sar!4v1234567890" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy"
+                            title="Ubicación PEPEGYM Campana"
+                            class="w-full h-full">
+                        </iframe>
+                    </div>
+                    <a href="https://maps.app.goo.gl/bvxTm2XYXvAj8Eap7" target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-gray-800 hover:bg-gray-700 text-pepeRed font-bold py-2 px-4 rounded transition-colors text-sm focus-visible min-h-[40px] flex items-center justify-center">
+                        Ver en Google Maps →
+                    </a>
+                    <button onclick="openModal('Campana')" class="mt-4 w-full bg-pepeRed hover:bg-red-700 text-white font-bold py-3 px-4 rounded transition-colors focus-visible min-h-[48px]">
+                        Reserva tu Clase Campana
+                    </button>
+                </div>
+
+                <!-- Zárate -->
+                <div class="bg-pepeDark p-5 sm:p-6 rounded-xl border border-gray-800 hover:border-pepeRed transition-colors">
+                    <h3 class="font-heading font-bold text-xl sm:text-2xl mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-pepeRed flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        PEPEGYM Zárate
+                    </h3>
+                    <div class="text-gray-400 mb-6 space-y-2 text-sm">
+                        <p><strong>Dirección:</strong> Zárate, Provincia de Buenos Aires</p>
+                        <p><strong>Horarios:</strong> Lunes a Viernes 06:00 - 23:00 | Sábados 08:00 - 20:00</p>
+                    </div>
+                    <!-- Mapa embebido de Google Maps -->
+                    <div class="w-full h-40 sm:h-48 rounded-lg overflow-hidden mb-4">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016!2d-59.03!3d-34.10!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDA2JzAwLjAiUyA1OMKwMDEnNDguMCJX!5e0!3m2!1ses-419!2sar!4v1234567890" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy"
+                            title="Ubicación PEPEGYM Zárate"
+                            class="w-full h-full">
+                        </iframe>
+                    </div>
+                    <a href="https://maps.app.goo.gl/Gfn2U8JcHHnJ6rdV7" target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-gray-800 hover:bg-gray-700 text-pepeRed font-bold py-2 px-4 rounded transition-colors text-sm focus-visible min-h-[40px] flex items-center justify-center">
+                        Ver en Google Maps →
+                    </a>
+                    <button onclick="openModal('Zárate')" class="mt-4 w-full bg-pepeRed hover:bg-red-700 text-white font-bold py-3 px-4 rounded transition-colors focus-visible min-h-[48px]">
+                        Reserva tu Clase Zárate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-pepeDark py-6 sm:py-8 border-t border-gray-900 text-center text-gray-500 text-xs sm:text-sm px-4">
+        <p>&copy; 2026 PEPEGYM. Todos los derechos reservados. Diseñado para rendir.</p>
+    </footer>
+
+    <!-- Botón flotante de WhatsApp (genérico) -->
+    <a href="https://wa.me/5493489704203?text=Hola%20PEPEGYM!%20Quiero%20más%20información." target="_blank" rel="noopener noreferrer" class="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 bg-[#25D366] text-white p-3 sm:p-4 rounded-full shadow-lg hover:bg-[#1ebe57] transition-colors z-50 flex items-center justify-center btn-wsp focus-visible" aria-label="Contactar por WhatsApp">
+        <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+    </a>
+
+    <!-- Modal "Nuestro Gimnasio" -->
+    <div id="gymModal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-sm overflow-y-auto">
+        <div class="bg-pepeGray rounded-2xl p-5 sm:p-8 w-full max-w-3xl border border-gray-700 shadow-2xl my-4 sm:my-8 mx-2 sm:mx-auto">
+            <div class="flex justify-between items-center mb-4 sm:mb-6">
+                <h3 class="font-heading font-bold text-xl sm:text-3xl text-pepeRed">Nuestro Gimnasio</h3>
+                <button onclick="closeGymModal()" class="text-gray-400 hover:text-white text-2xl sm:text-3xl font-bold focus-visible p-2" aria-label="Cerrar modal">&times;</button>
+            </div>
+            
+            <div class="prose prose-invert max-w-none">
+                <h4 class="font-heading font-bold text-lg sm:text-2xl mb-3 sm:mb-4 text-white">Bienvenido a PEPEGYM – Musculación de Élite y Calistenia</h4>
+                
+                <p class="text-gray-300 mb-4 text-base sm:text-lg leading-relaxed">
+                    Imagina entrar a un espacio donde cada detalle está pensado para que alcances tu mejor versión. Desde el primer momento, te recibimos con una sonrisa y un registro rápido, porque sabemos que tu tiempo vale.
+                </p>
+
+                <p class="text-gray-300 mb-6 text-base sm:text-lg leading-relaxed">
+                    Vení, acercate a nuestro local.<br>
+                    Queremos que recorras el gimnasio, conozcas nuestras áreas y descubras cómo podemos ayudarte a cumplir tus objetivos. Nuestro equipo estará a tu lado para guiarte, mostrarte las rutinas y responder todas tus dudas.
+                </p>
+
+                <h5 class="font-heading font-bold text-lg sm:text-xl mb-3 sm:mb-4 text-pepeRed">Explora nuestras áreas:</h5>
+                
+                <ul class="space-y-3 mb-6">
+                    <li class="flex items-start gap-3">
+                        <span class="text-xl sm:text-2xl flex-shrink-0">🏋️</span>
+                        <span class="text-gray-300 text-sm sm:text-base">Zona de musculación con equipos de última generación.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-xl sm:text-2xl flex-shrink-0">🤸</span>
+                        <span class="text-gray-300 text-sm sm:text-base">Espacio de calistenia para entrenar con tu propio cuerpo.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-xl sm:text-2xl flex-shrink-0">🚴</span>
+                        <span class="text-gray-300 text-sm sm:text-base">Área de cardio para mejorar resistencia.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-xl sm:text-2xl flex-shrink-0">🎶</span>
+                        <span class="text-gray-300 text-sm sm:text-base">Clases grupales que te conectan con la energía de la comunidad.</span>
+                    </li>
+                </ul>
+
+                <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-700 text-center">
+                    <button onclick="closeGymModal(); setTimeout(() => document.getElementById('ubicaciones').scrollIntoView({behavior: 'smooth'}), 300)" class="bg-pepeRed hover:bg-red-700 text-white font-bold py-3 px-6 sm:px-8 rounded-lg transition-colors text-base sm:text-lg focus-visible w-full sm:w-auto min-h-[48px]">
+                        Visítanos Hoy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Formulario de Reserva -->
+    <div id="reservationModal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-pepeGray rounded-2xl p-5 sm:p-6 w-full max-w-md border border-gray-700 shadow-2xl mx-2 sm:mx-auto">
+            <div class="flex justify-between items-center mb-4 sm:mb-6">
+                <h3 class="font-heading font-bold text-xl sm:text-2xl text-pepeRed">Reserva tu Clase</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl sm:text-3xl font-bold focus-visible p-2" aria-label="Cerrar modal">&times;</button>
+            </div>
+            
+            <form id="reservationForm" class="space-y-4">
+                <input type="hidden" id="location" name="location">
+                
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Nombre *</label>
+                    <input type="text" id="name" name="name" required 
+                           class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-pepeRed focus:border-transparent text-white placeholder-gray-500 focus-visible min-h-[48px]"
+                           placeholder="Tu nombre completo">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email (opcional)</label>
+                    <input type="email" id="email" name="email" 
+                           class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-pepeRed focus:border-transparent text-white placeholder-gray-500 focus-visible min-h-[48px]"
+                           placeholder="tu@email.com">
+                </div>
+                
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-300 mb-1">Celular *</label>
+                    <input type="tel" id="phone" name="phone" required 
+                           class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-pepeRed focus:border-transparent text-white placeholder-gray-500 focus-visible min-h-[48px]"
+                           placeholder="Ej: 11 1234-5678">
+                </div>
+                
+                <div class="bg-gray-800/50 p-3 rounded-lg text-sm text-gray-300">
+                    <p>📍 Sede seleccionada: <span id="modalLocation" class="font-bold text-pepeRed">-</span></p>
+                </div>
+                
+                <button type="submit" 
+                        class="w-full bg-pepeRed hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg transition-colors text-lg shadow-lg hover:shadow-pepeRed/30 focus-visible min-h-[52px]">
+                    Enviar por WhatsApp
+                </button>
+            </form>
+            
+            <p class="text-xs text-gray-500 mt-4 text-center px-2">
+                Al enviar, serás redirigido a WhatsApp con tus datos pre-completados.
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Configuración de números de WhatsApp por ubicación
+        const WHATSAPP_NUMBERS = {
+            'Campana': '5493489704203',
+            'Zárate': '5491173622168'
+        };
+
+        // Funciones del modal de reserva
+        function openModal(location) {
+            document.getElementById('location').value = location;
+            document.getElementById('modalLocation').textContent = location;
+            document.getElementById('reservationModal').classList.remove('hidden');
+            document.getElementById('name').focus();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('reservationModal').classList.add('hidden');
+            document.body.style.overflow = '';
+            document.getElementById('reservationForm').reset();
+        }
+
+        // Funciones del modal "Nuestro Gimnasio"
+        function openGymModal() {
+            document.getElementById('gymModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGymModal() {
+            document.getElementById('gymModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Cerrar modales al hacer clic fuera del contenido
+        document.getElementById('reservationModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.getElementById('gymModal').addEventListener('click', function(e) {
+            if (e.target === this) closeGymModal();
+        });
+
+        // Cerrar modales con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (!document.getElementById('reservationModal').classList.contains('hidden')) {
+                    closeModal();
+                }
+                if (!document.getElementById('gymModal').classList.contains('hidden')) {
+                    closeGymModal();
+                }
+            }
+        });
+
+        // Manejo del formulario de reserva
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const location = document.getElementById('location').value;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            // Construir mensaje para WhatsApp
+            let message = `*NUEVA RESERVA - PEPEGYM*\n\n`;
+            message += `📍 *Sede:* ${location}\n`;
+            message += `👤 *Nombre:* ${name}\n`;
+            if (email) message += `📧 *Email:* ${email}\n`;
+            message += `📱 *Celular:* ${phone}\n\n`;
+            message += `Quiero reservar mi clase gratuita de prueba.`;
+            
+            // Codificar mensaje para URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Obtener número de WhatsApp según ubicación
+            const whatsappNumber = WHATSAPP_NUMBERS[location];
+            
+            // Redirigir a WhatsApp
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            window.open(whatsappURL, '_blank', 'noopener,noreferrer');
+            
+            // Cerrar modal y mostrar feedback
+            closeModal();
+            
+            // Feedback visual opcional
+            alert(`✅ ¡Gracias ${name}! Te redirigimos a WhatsApp para confirmar tu reserva en ${location}.`);
+        });
+
+        // Lazy load para iframes de mapas (mejora de rendimiento)
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframes = document.querySelectorAll('iframe[loading="lazy"]');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const iframe = entry.target;
+                            if (iframe.dataset.src) {
+                                iframe.src = iframe.dataset.src;
+                                observer.unobserve(iframe);
+                            }
+                        }
+                    });
+                });
+                iframes.forEach(iframe => {
+                    if (iframe.dataset.src) {
+                        observer.observe(iframe);
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
